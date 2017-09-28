@@ -1,3 +1,6 @@
+// This contract dispenses roughly 0.01% of the ICO supply for every 1 eth contributed. 
+// Thus for every eth sent to the contract, the price of the token increases and the supply is never fully depleted. 
+
 contract Bubble is StandardToken {
 
 
