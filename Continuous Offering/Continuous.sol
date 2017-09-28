@@ -1,4 +1,21 @@
-contract Bubble is StandardToken {
+// This contract dispenses roughly 0.01% of the ICO supply for every 1 eth contributed. 
+// Thus for every eth sent to the contract, the price of the token increases and the supply is never fully depleted. 
+
+import "./StandardToken.sol";
+
+library Math {
+
+    function multiply (uint a, uint b, uint decimals) internal constant returns (uint) {
+        return a*b/10**decimals;
+    }
+    
+    function divide (uint a, uint b, uint decimals) internal constant returns (uint) {
+        return a*10**decimals/b;
+    }
+    
+}
+
+contract ContinuousOffering is StandardToken {
 
 
     /* Public variables of the token */
@@ -14,7 +31,7 @@ contract Bubble is StandardToken {
     string public symbol;                 //An identifier: eg SBX
     string public version = 'H0.1';       //human 0.1 standard. Just an arbitrary versioning scheme.
     uint leftoverWei;                   //Wei left at current price
-    uint WpB;                           //Wei per Bulbble
+    uint WpT;                           //Wei per Bulbble
     uint public ICOSupply;              //Total ICO Supply
 
     function () payable {
@@ -35,50 +52,50 @@ function DispenseToAddress(address _address) payable{
 }
 
 function Dispense(address _address, uint _contribution) payable{
-                    uint Reward = 0; //bubble reward
+                    uint Reward = 0; //token reward
 
-            uint BubbletoGive;
+            uint TokenstoGive;
 
     //give reward, new price calculated for every 1 eth sent
         while (_contribution>leftoverWei) {
             _contribution -= leftoverWei; 
-            BubbletoGive = Math.divide(leftoverWei,WpB,0);
-            Reward += BubbletoGive;
-            ICOSupply -= BubbletoGive;
-            WpB = CalculateWpB();
+            TokenstoGive = Math.divide(leftoverWei,WpT,0);
+            Reward += TokenstoGive;
+            ICOSupply -= TokenstoGive;
+            WpT = CalculateWpT();
             leftoverWei = 1000000000000000000;
 
         }
 
         //give out reward for remaining wei in contribution
             leftoverWei -= _contribution;
-            BubbletoGive = Math.divide(_contribution,WpB,0);
-            Reward += BubbletoGive;
-            ICOSupply -= BubbletoGive;
+            TokenstoGive = Math.divide(_contribution,WpT,0);
+            Reward += TokenstoGive;
+            ICOSupply -= TokenstoGive;
             balances[_address] += Reward;
 
     
 }
 
-    function Bubble(
+    function Tokens(
         ) {
         balances[msg.sender] = 3333333333333333;               // Give the creator all initial tokens
         totalSupply = 8888888888888888;                        // Update total supply
-        name = "Bubble";                                   // Set the name for display purposes
+        name = "Tokens";                                   // Set the name for display purposes
         decimals = 8;                            // Amount of decimals for display purposes
-        symbol = "BUBBLE";                               // Set the symbol for display purposes
+        symbol = "CNT";                               // Set the symbol for display purposes
         ICOSupply = 5555555555555555;
         leftoverWei = 1000000000000000000;
-             WpB = CalculateWpB();
+             WpT = CalculateWpT();
 
     }
 
  
-    //Calculate Wei per Bubble
-    function CalculateWpB() returns (uint) {
-        var BubblePerEth = Math.divide(ICOSupply,8888,0);
+    //Calculate Wei per Token
+    function CalculateWpT() returns (uint) {
+        var TokensPerEth = Math.divide(ICOSupply,8888,0);
         
-        return Math.divide(1000000000000000000,BubblePerEth,0);
+        return Math.divide(1000000000000000000,TokensPerEth,0);
     }
 
     /* Approves and then calls the receiving contract */
@@ -93,3 +110,4 @@ function Dispense(address _address, uint _contribution) payable{
         return true;
     }
 }
+
