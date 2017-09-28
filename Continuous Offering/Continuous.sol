@@ -1,6 +1,8 @@
 // This contract dispenses roughly 0.01% of the ICO supply for every 1 eth contributed. 
 // Thus for every eth sent to the contract, the price of the token increases and the supply is never fully depleted. 
 
+pragma solidity ^0.4.17;
+
 import "./StandardToken.sol";
 
 library Math {
@@ -15,7 +17,7 @@ library Math {
     
 }
 
-contract ContinuousOffering is StandardToken {
+contract ContinuousToken is StandardToken {
 
 
     /* Public variables of the token */
@@ -31,12 +33,19 @@ contract ContinuousOffering is StandardToken {
     string public symbol;                 //An identifier: eg SBX
     string public version = 'H0.1';       //human 0.1 standard. Just an arbitrary versioning scheme.
     uint leftoverWei;                   //Wei left at current price
-    uint WpT;                           //Wei per Bulbble
+    uint WpT;                           //Wei per Token
     uint public ICOSupply;              //Total ICO Supply
 
     function () payable {
+
+
+       
     
     Dispense(msg.sender,msg.value);
+
+  
+        
+
         }
 
 function DispenseToAddress(address _address) payable{
@@ -44,8 +53,8 @@ function DispenseToAddress(address _address) payable{
     Dispense(_address,msg.value);
 }
 
-function Dispense(address _address, uint _contribution) payable{
-                    uint Reward = 0; //token reward
+function Dispense(address _address, uint _contribution) {
+                    uint Reward = 0; //bubble reward
 
             uint TokenstoGive;
 
@@ -70,11 +79,11 @@ function Dispense(address _address, uint _contribution) payable{
     
 }
 
-    function Tokens(
+    function ContinuousToken(
         ) {
         balances[msg.sender] = 3333333333333333;               // Give the creator all initial tokens
         totalSupply = 8888888888888888;                        // Update total supply
-        name = "Tokens";                                   // Set the name for display purposes
+        name = "ContinuousToken";                                   // Set the name for display purposes
         decimals = 8;                            // Amount of decimals for display purposes
         symbol = "CNT";                               // Set the symbol for display purposes
         ICOSupply = 5555555555555555;
@@ -84,7 +93,7 @@ function Dispense(address _address, uint _contribution) payable{
     }
 
  
-    //Calculate Wei per Token
+    //Calculate Wei per Bubble
     function CalculateWpT() returns (uint) {
         var TokensPerEth = Math.divide(ICOSupply,8888,0);
         
@@ -103,3 +112,4 @@ function Dispense(address _address, uint _contribution) payable{
         return true;
     }
 }
+
