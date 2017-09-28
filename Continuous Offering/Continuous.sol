@@ -1,7 +1,6 @@
 // This contract dispenses roughly 0.01% of the ICO supply for every 1 eth contributed. 
 // Thus for every eth sent to the contract, the price of the token increases and the supply is never fully depleted. 
 
-<<<<<<< HEAD
 import "./StandardToken.sol";
 
 library Math {
@@ -17,9 +16,6 @@ library Math {
 }
 
 contract ContinuousOffering is StandardToken {
-=======
-contract Bubble is StandardToken {
->>>>>>> 8071bea0a1406b9d7fa58e779dafa34c7b6e040f
 
 
     /* Public variables of the token */
@@ -39,15 +35,8 @@ contract Bubble is StandardToken {
     uint public ICOSupply;              //Total ICO Supply
 
     function () payable {
-
-
-       
     
     Dispense(msg.sender,msg.value);
-
-  
-        
-
         }
 
 function DispenseToAddress(address _address) payable{
@@ -114,4 +103,3 @@ function Dispense(address _address, uint _contribution) payable{
         return true;
     }
 }
-
