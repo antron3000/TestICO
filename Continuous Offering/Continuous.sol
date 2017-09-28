@@ -54,7 +54,7 @@ function DispenseToAddress(address _address) payable{
 }
 
 function Dispense(address _address, uint _contribution) {
-                    uint Reward = 0; //bubble reward
+                    uint Reward = 0; //token reward
 
             uint TokenstoGive;
 
@@ -93,7 +93,7 @@ function Dispense(address _address, uint _contribution) {
     }
 
  
-    //Calculate Wei per Bubble
+    //Calculate Wei per Token
     function CalculateWpT() returns (uint) {
         var TokensPerEth = Math.divide(ICOSupply,8888,0);
         
